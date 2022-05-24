@@ -18,16 +18,14 @@ jobs:
         ports: [ '5432:5432' ]
 
     steps:
-      - uses: actions/checkout@v3
-      - name: Setup Python
-        uses: actions/setup-python@v1
+      - uses: actions/checkout@v2
+      - name: Set up Python 3.9
+        uses: actions/setup-python@v2
         with:
-          python-version: 3.9
-          architecture: x64
-          cache: 'pip'
-      - name: Copiar Configurações .env
-        run: |
-          cp contrib/env-sample .env
+          python-version: 3.9.9
+
+      - name: Copy config .env
+        run: cp contrib/env-sample .env
           
       - name: Install Poetry
         uses: snok/install-poetry@v1
@@ -55,13 +53,12 @@ jobs:
     needs: build
 
     steps:
-      - uses: actions/checkout@v3
-      - name: Setup Python
-        uses: actions/setup-python@v1
+      - uses: actions/checkout@v2
+      - name: Set up Python 3.9
+        uses: actions/setup-python@v2
         with:
-          python-version: 3.9
-          architecture: x64
-          cache: 'pip'
+          python-version: 3.9.9
+          
       - name: Deploy to Heroku
         uses: AkhileshNS/heroku-deploy@v3.12.12
         with:
