@@ -28,6 +28,7 @@ jobs:
       - name: Copiar Configurações .env
         run: |
           cp contrib/env-sample .env
+          
       - name: Install Poetry
         uses: snok/install-poetry@v1
         with:
