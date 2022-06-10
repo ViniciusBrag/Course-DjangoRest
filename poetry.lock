@@ -118,7 +118,7 @@ python-versions = "*"
 name = "faker"
 version = "13.12.1"
 description = "Faker is a Python package that generates fake data for you."
-category = "dev"
+category = "main"
 optional = false
 python-versions = ">=3.6"
 
@@ -407,7 +407,7 @@ testing = ["argcomplete", "hypothesis (>=3.56)", "mock", "nose", "pygments (>=2.
 name = "python-dateutil"
 version = "2.8.2"
 description = "Extensions to the standard Python datetime module"
-category = "dev"
+category = "main"
 optional = false
 python-versions = "!=3.0.*,!=3.1.*,!=3.2.*,>=2.7"
 
@@ -426,7 +426,7 @@ python-versions = "*"
 name = "six"
 version = "1.16.0"
 description = "Python 2 and 3 compatibility utilities"
-category = "dev"
+category = "main"
 optional = false
 python-versions = ">=2.7, !=3.0.*, !=3.1.*, !=3.2.*"
 
@@ -508,7 +508,7 @@ python-versions = "*"
 [metadata]
 lock-version = "1.1"
 python-versions = "3.9.9"
-content-hash = "eef3792e90fa55109ec76569a102876024fb995fec938b5319ce4ce3d44faa81"
+content-hash = "d8deac06e3872c4eb265380589be43ae66742a63a5914730091f688f671116a5"
 
 [metadata.files]
 appnope = [
