@@ -30,7 +30,8 @@ jobs:
           installer-parallel: true
 
       - name: Install dependencies
-        run: poetry install 
+        run: poetry install -D
+            
 
       - name: Copy config .env
         run: cp contrib/env-sample .env  
