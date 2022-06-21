@@ -1,5 +1,4 @@
 from random import randint
-from unicodedata import digit
 
 from faker import Faker
 
