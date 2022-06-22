@@ -1,10 +1,12 @@
 from django.shortcuts import render
+from project.recipes.models import Recipe
 from utils.recipes.factory import make_recipe
 
 
 def home(request):
+    recipes = Recipe.objects.all().order_by('-id')
     return render(request, 'recipes/pages/home.html', context={
-        'recipes': [make_recipe() for _ in range(10)],
+        'recipes': recipes,
     })
 
 
@@ -13,4 +15,13 @@ def recipe(request, id):
         'recipe': make_recipe(),
         'is_detail_page': True,
 
+    })
+
+
+def category(request, category_id):
+    recipes = Recipe.objects.filter(
+        category__id=category_id
+    ).order_by('-id')
+    return render(request, 'recipes/pages/home.html', context={
+        'recipes': recipes,
     })
