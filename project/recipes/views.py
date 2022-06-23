@@ -1,6 +1,5 @@
-from django.shortcuts import render
+from django.shortcuts import get_list_or_404, render
 from project.recipes.models import Recipe
-from utils.recipes.factory import make_recipe
 
 
 def home(request):
@@ -12,19 +11,29 @@ def home(request):
     })
 
 
-def recipe(request, id):
-    return render(request, 'recipes/pages/recipe_view.html', context={
-        'recipe': make_recipe(),
-        'is_detail_page': True,
+def category(request, category_id):
+    recipes = get_list_or_404(
+        Recipe.objects.filter(
+            category__id=category_id,
+            is_published=True,
+        ).
+        order_by('-id')
+    )
 
+    return render(request, 'recipes/pages/category.html', context={
+        'recipes': recipes,
+        'title': f'{recipes[0].category.name} - Category | '
     })
 
 
-def category(request, category_id):
-    recipes = Recipe.objects.filter(
+def recipe(request, id):
+    recipe = Recipe.objects.filter(
+        pk=id,
         is_published=True,
-        category__id=category_id
-    ).order_by('-id')
-    return render(request, 'recipes/pages/category.html', context={
-        'recipes': recipes,
+    ).order_by('-id').first()
+
+    return render(request, 'recipes/pages/recipe_view.html', context={
+        'recipe': recipe,
+        'is_detail_page': True,
+
     })
