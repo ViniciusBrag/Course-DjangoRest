@@ -42,7 +42,7 @@ jobs:
         with:
           checkName: 'flake8_py3'
       - name: Rodar Testes Automáticos
-        run: pytest
+        run: poetry run pytest
 
   deploy:
     env:
