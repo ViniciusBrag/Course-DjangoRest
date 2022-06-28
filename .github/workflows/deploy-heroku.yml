@@ -41,9 +41,8 @@ jobs:
         uses: py-actions/flake8@v1
         with:
           checkName: 'flake8_py3'
-     # - name: Rodar Testes Automáticos
-      #  run: |
-       #   poetry run pytest
+      - name: Rodar Testes Automáticos
+        run: pytest
 
   deploy:
     env:
