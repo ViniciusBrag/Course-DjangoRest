@@ -1,3 +1,5 @@
+from http import HTTPStatus
+
 from django.test import TestCase
 from django.urls import resolve, reverse
 from project.recipes import views
@@ -23,3 +25,11 @@ class RecipeViewsTest(TestCase):
             )
         )
         self.assertIs(view.func, views.recipe)
+
+    def test_recipe_home_status(self):
+        response = self.client.get(reverse('recipes:home'))
+        self.assertEqual(response.status_code, HTTPStatus.OK)
+
+    def test_recipe_home_loads_correct_template(self):
+        response = self.client.get(reverse('recipes:home'))
+        self.assertTemplateUsed(response, 'recipes/pages/home.html')
