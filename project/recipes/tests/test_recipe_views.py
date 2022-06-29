@@ -1,4 +1,5 @@
 from http import HTTPStatus
+from urllib import response
 
 from django.test import TestCase
 from django.urls import resolve, reverse
@@ -27,9 +28,16 @@ class RecipeViewsTest(TestCase):
         self.assertIs(view.func, views.recipe)
 
     def test_recipe_home_status(self):
-        response = self.client.get(reverse('recipes:home'))
-        self.assertEqual(response.status_code, HTTPStatus.OK)
+        response_get = self.client.get(reverse('recipes:home'))
+        self.assertEqual(response_get.status_code, HTTPStatus.OK)
 
     def test_recipe_home_loads_correct_template(self):
-        response = self.client.get(reverse('recipes:home'))
-        self.assertTemplateUsed(response, 'recipes/pages/home.html')
+        response_home = self.client.get(reverse('recipes:home'))
+        self.assertTemplateUsed(response_home, 'recipes/pages/home.html')
+
+    def test_recipe_home_templates_shows_no_recipes_found_no_recipes(self):
+        response_templates = self.client.get(reverse('recipes:home'))
+        self.assertIn(
+            'No recipes found here',
+            response_templates.content.decode('utf-8')
+        )
