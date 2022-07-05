@@ -1,3 +1,4 @@
+from email.policy import HTTP
 from http import HTTPStatus
 
 from django.test import TestCase
@@ -26,9 +27,13 @@ class RecipeViewsTest(TestCase):
         )
         self.assertIs(view.func, views.recipe)
 
-    def test_recipe_home_status(self):
+    def test_recipe_home_status_is_ok(self):
         response_get = self.client.get(reverse('recipes:home'))
         self.assertEqual(response_get.status_code, HTTPStatus.OK)
+
+    def test_recipe_home_status_404(self):
+        response_get_url = self.client.get(reverse('recipes:category', kwargs={'category_id': 12}))
+        self.assertEqual(response_get_url.status_code,  HTTPStatus.NOT_FOUND)
 
     def test_recipe_home_loads_correct_template(self):
         response_home = self.client.get(reverse('recipes:home'))
@@ -40,3 +45,9 @@ class RecipeViewsTest(TestCase):
             'No recipes found here',
             response_templates.content.decode('utf-8')
         )
+
+    def test_recipe_detail_view_returns_404_if_no_recipes_found(self):
+        response_get_not_found = self.client.get(
+            reverse('recipes:recipe', kwargs={'id': 1000})
+        )
+        self.assertEqual(response_get_not_found.status_code, HTTPStatus.NOT_FOUND )
