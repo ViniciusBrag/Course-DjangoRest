@@ -1,8 +1,11 @@
 from http import HTTPStatus
 
+from django.contrib.auth.models import User
 from django.test import TestCase
 from django.urls import resolve, reverse
+
 from project.recipes import views
+from project.recipes.models import Category, Recipe
 
 
 class RecipeViewsTest(TestCase):
@@ -11,24 +14,22 @@ class RecipeViewsTest(TestCase):
         self.assertIs(view.func, views.home)
 
     def test_recipe_category_views_function_is_correct(self):
-        view = resolve(
-            reverse(
-                'recipes:category', kwargs={'category_id': 2}
-            )
-        )
+        view = resolve(reverse('recipes:category', kwargs={'category_id': 2}))
         self.assertIs(view.func, views.category)
 
     def test_recipe_detail_views_function_is_correct(self):
-        view = resolve(
-            reverse(
-                'recipes:recipe', kwargs={'id': 5}
-            )
-        )
+        view = resolve(reverse('recipes:recipe', kwargs={'id': 5}))
         self.assertIs(view.func, views.recipe)
 
-    def test_recipe_home_status(self):
+    def test_recipe_home_status_is_ok(self):
         response_get = self.client.get(reverse('recipes:home'))
-        self.assertEqual(response_get.status_code, 200)
+        self.assertEqual(response_get.status_code, HTTPStatus.OK)
+
+    def test_recipe_home_status_404(self):
+        response_get_url = self.client.get(
+            reverse('recipes:category', kwargs={'category_id': 12})
+        )
+        self.assertEqual(response_get_url.status_code, HTTPStatus.NOT_FOUND)
 
     def test_recipe_home_loads_correct_template(self):
         response_home = self.client.get(reverse('recipes:home'))
@@ -37,6 +38,42 @@ class RecipeViewsTest(TestCase):
     def test_recipe_home_templates_shows_no_recipes_found_no_recipes(self):
         response_templates = self.client.get(reverse('recipes:home'))
         self.assertIn(
-            'No recipes found here',
-            response_templates.content.decode('utf-8')
+            'No recipes found here', response_templates.content.decode('utf-8')
+        )
+
+    def test_recipe_home_loads_recipe(self):
+        category = Category.objects.create(name='Category test')
+        author = User.objects.create_user(
+            first_name='UserFake',
+            last_name='name',
+            username='username',
+            password='1234566',
+            email='username@email.com',
+        )
+        Recipe.objects.create(
+            category=category,
+            author=author,
+            title='Recipe title',
+            description='Recipe Description',
+            slug='recipe_slug',
+            preparation_time=10,
+            preparation_time_unit=3,
+            servings=5,
+            serving_unit='porções',
+            preparation_steps='Recipe Preparation Steps',
+            preparation_steps_is_html=False,
+            is_published=True,
+        )
+
+        response_loads = self.client.get(reverse('recipes:home'))
+        content = response_loads.content.decode('utf-8')
+        self.assertIn('Recipe title', content)
+        self.assertIn('10', content)
+
+    def test_recipe_detail_view_returns_404_if_no_recipes_found(self):
+        response_get_not_found = self.client.get(
+            reverse('recipes:recipe', kwargs={'id': 1000})
+        )
+        self.assertEqual(
+            response_get_not_found.status_code, HTTPStatus.NOT_FOUND
         )
