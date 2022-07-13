@@ -1,14 +1,11 @@
 from http import HTTPStatus
 
-from django.contrib.auth.models import User
-from django.test import TestCase
 from django.urls import resolve, reverse
-
 from project.recipes import views
-from project.recipes.models import Category, Recipe
+from project.recipes.tests.test_recipe_base import RecipeBase
 
 
-class RecipeViewsTest(TestCase):
+class RecipeViewsTest(RecipeBase):
     def test_recipe_home_view_function_is_correct(self):
         view = resolve(reverse('recipes:home'))
         self.assertIs(view.func, views.home)
@@ -42,33 +39,13 @@ class RecipeViewsTest(TestCase):
         )
 
     def test_recipe_home_loads_recipe(self):
-        category = Category.objects.create(name='Category test')
-        author = User.objects.create_user(
-            first_name='UserFake',
-            last_name='name',
-            username='username',
-            password='1234566',
-            email='username@email.com',
-        )
-        Recipe.objects.create(
-            category=category,
-            author=author,
-            title='Recipe title',
-            description='Recipe Description',
-            slug='recipe_slug',
-            preparation_time=10,
-            preparation_time_unit=3,
-            servings=5,
-            serving_unit='porções',
-            preparation_steps='Recipe Preparation Steps',
-            preparation_steps_is_html=False,
-            is_published=True,
-        )
-
+        """
+        Check if one recipe_exists
+        """
+        self.make_recipe()
         response_loads = self.client.get(reverse('recipes:home'))
         content = response_loads.content.decode('utf-8')
         self.assertIn('Recipe title', content)
-        self.assertIn('10', content)
 
     def test_recipe_detail_view_returns_404_if_no_recipes_found(self):
         response_get_not_found = self.client.get(
