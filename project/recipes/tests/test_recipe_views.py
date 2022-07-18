@@ -38,6 +38,8 @@ class RecipeViewsTest(RecipeBase):
             'No recipes found here', response_templates.content.decode('utf-8')
         )
 
+        self.fail('Para eu terminar de implementar')
+
     def test_recipe_home_loads_recipe(self):
         """
         Check if one recipe_exists
