@@ -1,6 +1,7 @@
 from http import HTTPStatus
 
 from django.urls import resolve, reverse
+
 from project.recipes import views
 from project.recipes.tests.test_recipe_base import RecipeBase
 
@@ -37,8 +38,6 @@ class RecipeViewsTest(RecipeBase):
         self.assertIn(
             'No recipes found here', response_templates.content.decode('utf-8')
         )
-
-        self.fail('Para eu terminar de implementar')
 
     def test_recipe_home_loads_recipe(self):
         """
