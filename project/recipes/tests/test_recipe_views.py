@@ -89,3 +89,13 @@ class RecipeViewsTest(RecipeBase):
 
         response_not_published = self.client.get(reverse('recipes:recipe', kwargs={'id': recipe.category.id}))
         self.assertEqual(response_not_published.status_code, HTTPStatus.NOT_FOUND)
+
+    def test_recipe_detail_template_dont_loads_recipe_not_published(self):
+        """
+        Test recipe is published False dont show
+        """
+        # Need a recipe for this test
+        recipe = self.make_recipe(is_published=False)
+
+        response_not_published = self.client.get(reverse('recipes:recipe', kwargs={'id': recipe.category.id}))
+        self.assertEqual(response_not_published.status_code, HTTPStatus.NOT_FOUND)
