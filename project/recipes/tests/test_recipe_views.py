@@ -1,3 +1,4 @@
+
 from http import HTTPStatus
 
 from django.urls import resolve, reverse
@@ -78,3 +79,13 @@ class RecipeViewsTest(RecipeBase):
         content_category = response_category.content.decode('utf-8')
 
         self.assertIn(needed_title, content_category)
+
+    def test_recipe_home_template_dont_loads_recipe_not_published(self):
+        """
+        Test recipe is published True
+        """
+        # Need a recipe for this test
+        recipe = self.make_recipe(is_published=False)
+
+        response_not_published = self.client.get(reverse('recipes:recipe', kwargs={'id': recipe.category.id}))
+        self.assertEqual(response_not_published.status_code, HTTPStatus.NOT_FOUND)
