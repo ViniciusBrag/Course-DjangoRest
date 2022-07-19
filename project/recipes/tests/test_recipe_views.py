@@ -1,7 +1,7 @@
-
 from http import HTTPStatus
 
 from django.urls import resolve, reverse
+
 from project.recipes import views
 from project.recipes.tests.test_recipe_base import RecipeBase
 
@@ -87,8 +87,12 @@ class RecipeViewsTest(RecipeBase):
         # Need a recipe for this test
         recipe = self.make_recipe(is_published=False)
 
-        response_not_published = self.client.get(reverse('recipes:recipe', kwargs={'id': recipe.category.id}))
-        self.assertEqual(response_not_published.status_code, HTTPStatus.NOT_FOUND)
+        response_not_published = self.client.get(
+            reverse('recipes:recipe', kwargs={'id': recipe.category.id})
+        )
+        self.assertEqual(
+            response_not_published.status_code, HTTPStatus.NOT_FOUND
+        )
 
     def test_recipe_detail_template_dont_loads_recipe_not_published(self):
         """
@@ -97,5 +101,9 @@ class RecipeViewsTest(RecipeBase):
         # Need a recipe for this test
         recipe = self.make_recipe(is_published=False)
 
-        response_not_published = self.client.get(reverse('recipes:recipe', kwargs={'id': recipe.category.id}))
-        self.assertEqual(response_not_published.status_code, HTTPStatus.NOT_FOUND)
+        response_not_published = self.client.get(
+            reverse('recipes:recipe', kwargs={'id': recipe.id})
+        )
+        self.assertEqual(
+            response_not_published.status_code, HTTPStatus.NOT_FOUND
+        )
