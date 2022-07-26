@@ -1,5 +1,6 @@
 from django.core.exceptions import ValidationError
 from parameterized import parameterized
+
 from project.recipes.models import Recipe
 from project.recipes.tests.test_recipe_base import RecipeBase
 
@@ -41,14 +42,16 @@ class RecipeModelTest(RecipeBase):
 
     def test_recipe_preparation_step_is_html_is_false_by_default(self):
         recipe_preparation = self.make_recipe_no_default()
-        self.assertFalse(recipe_preparation.preparation_steps_is_html,
-                         msg='Recipe preparation_steps_is_html is not False')
+        self.assertFalse(
+            recipe_preparation.preparation_steps_is_html,
+            msg='Recipe preparation_steps_is_html is not False',
+        )
 
     def test_recipe_is_published_is_false_by_default(self):
         recipe_is_published = self.make_recipe_no_default()
         self.assertFalse(
             recipe_is_published.is_published,
-            msg='Recipe preparation_steps_is_html is not False'
+            msg='Recipe preparation_steps_is_html is not False',
         )
 
     def test_recipe_string_representation(self):
