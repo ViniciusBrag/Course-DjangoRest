@@ -1,7 +1,6 @@
 from http import HTTPStatus
 
 from django.urls import resolve, reverse
-
 from project.recipes import views
 from project.recipes.tests.test_recipe_base import RecipeBase
 
@@ -107,3 +106,7 @@ class RecipeViewsTest(RecipeBase):
         self.assertEqual(
             response_not_published.status_code, HTTPStatus.NOT_FOUND
         )
+
+    def test_recipe_search_uses_correct_view_function(self):
+        resolved_view = resolve(reverse('recipes:search'))
+        self.assertIs(resolved_view.func, views.search)
