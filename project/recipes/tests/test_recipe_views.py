@@ -1,6 +1,7 @@
 from http import HTTPStatus
 
 from django.urls import resolve, reverse
+
 from project.recipes import views
 from project.recipes.tests.test_recipe_base import RecipeBase
 
@@ -128,5 +129,5 @@ class RecipeViewsTest(RecipeBase):
         response_url_search = self.client.get(url_search)
         self.assertIn(
             'Search for &quot;&lt;Teste&gt;&quot;',
-            response_url_search.content.decode('utf-8')
+            response_url_search.content.decode('utf-8'),
         )
