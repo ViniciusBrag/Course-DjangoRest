@@ -1,6 +1,5 @@
 from django.http.response import Http404
 from django.shortcuts import get_list_or_404, get_object_or_404, render
-
 from project.recipes.models import Recipe
 
 
@@ -51,4 +50,8 @@ def search(request):
 
     if not search_term:
         raise Http404()
-    return render(request, 'recipes/pages/search.html')
+
+    return render(request, 'recipes/pages/search.html', {
+        'page_title': f'Search for "{search_term}" |',
+        'search_term': search_term,
+    })
