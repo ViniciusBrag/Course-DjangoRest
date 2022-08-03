@@ -1,7 +1,6 @@
 from http import HTTPStatus
 
 from django.urls import resolve, reverse
-
 from project.recipes import views
 from project.recipes.tests.test_recipe_base import RecipeBase
 
@@ -122,4 +121,12 @@ class RecipeViewsTest(RecipeBase):
         response_search_term = self.client.get(reverse('recipes:search'))
         self.assertEqual(
             response_search_term.status_code, HTTPStatus.NOT_FOUND
+        )
+
+    def test_recipe_search_term_is_on_page_title_and_escaped(self):
+        url_search = reverse('recipes:search') + '?q=<Teste>'
+        response_url_search = self.client.get(url_search)
+        self.assertIn(
+            'Search for &quot;&lt;Teste&gt;&quot;',
+            response_url_search.content.decode('utf-8')
         )
