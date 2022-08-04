@@ -1,6 +1,6 @@
+from django.db.models import Q
 from django.http.response import Http404
 from django.shortcuts import get_list_or_404, get_object_or_404, render
-
 from project.recipes.models import Recipe
 
 
@@ -52,11 +52,18 @@ def search(request):
     if not search_term:
         raise Http404()
 
+    recipes_search = Recipe.objects.filter(
+        # busca no banco de dados o termo digitado pelo usuário, que pode está entre o termo buscado, por isso "icontains" ignorando qualquer tipo de 'case' no
+        Q(title__icontains=search_term) |
+        Q(description__icontains=search_term),
+    ).order_by('-id')
+
     return render(
         request,
         'recipes/pages/search.html',
         {
             'page_title': f'Search for "{search_term}" |',
             'search_term': search_term,
+            'recipes_search': recipes_search,
         },
     )
