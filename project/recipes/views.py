@@ -52,10 +52,13 @@ def search(request):
     if not search_term:
         raise Http404()
 
-    recipes_search = Recipe.objects.filter(
+    recipes = Recipe.objects.filter(
         # busca no banco de dados o termo digitado pelo usuário, que pode está entre o termo buscado, por isso "icontains" ignorando qualquer tipo de 'case' no
-        Q(title__icontains=search_term) |
-        Q(description__icontains=search_term),
+        Q(
+            Q(title__icontains=search_term)
+            | Q(description__icontains=search_term),
+        ),
+        is_published=True,
     ).order_by('-id')
 
     return render(
@@ -64,6 +67,6 @@ def search(request):
         {
             'page_title': f'Search for "{search_term}" |',
             'search_term': search_term,
-            'recipes_search': recipes_search,
+            'recipes': recipes,
         },
     )
