@@ -29,4 +29,3 @@ def make_pagination_range(total_range, limit_page, current_page):
         'last_page_out_of_range': stop_range < total_pages
     }
 
-
