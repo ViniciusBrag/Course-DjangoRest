@@ -9,10 +9,9 @@ class PaginationTest(TestCase):
             total_range=list(range(1, 21)),
             limit_page=4,
             current_page=1,
-        )[pagination]
+        )['pagination']
 
         self.assertEqual([1, 2, 3, 4], pagination)
-
 
     def test_first_range_is_static_if_current_page_is_less_than_middle_page(self):
         # Current page = 1 - Qty Page = 2 - Middle Page = 2
@@ -30,8 +29,6 @@ class PaginationTest(TestCase):
             current_page=2,
 
         )['pagination']
-        )
-
         self.assertEqual([1, 2, 3, 4], pagination)
 
         # Current page = 3 - Qty Page = 2 - Middle Page = 2
@@ -94,14 +91,3 @@ class PaginationTest(TestCase):
             current_page=20,
         )['pagination']
         self.assertEqual([17, 18, 19, 20], pagination)
-
-        # Current page = 21 - Qty Page = 2 - Middle Page = 2
-        pagination = make_pagination_range(
-            total_range=list(range(1, 21)),
-            limit_page=4,
-            current_page=21,
-        )['pagination']
-        self.assertEqual([17, 18, 19, 20], pagination)
-        )
-        self.assertEqual([3, 4, 5, 6], pagination)
-
