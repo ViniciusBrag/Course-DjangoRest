@@ -33,14 +33,14 @@ class RegisterForm(forms.ModelForm):
         add_placeholder(self.fields['username'], 'Your username')
         add_placeholder(self.fields['email'], 'Your e-mail')
         add_placeholder(self.fields['first_name'], 'Ex.: John')
+        add_placeholder(self.fields['password'], 'Type your password')
+        add_placeholder(self.fields['repeat_password'], 'Repeat your password')
         add_placeholder(self.fields['last_name'], 'Ex.: Doe')
         add_attr(self.fields['username'], 'css', 'a-css-class')
 
     password = forms.CharField(
         required=True,
-        widget=forms.PasswordInput(attrs={
-            'placeholder': 'Your password'
-        }),
+        widget=forms.PasswordInput(),
         error_messages={
             'required': 'Password must not be empty'
         },
@@ -54,9 +54,7 @@ class RegisterForm(forms.ModelForm):
 
     repeat_password = forms.CharField(
         required=True,
-        widget=forms.PasswordInput(attrs={
-            'placeholder': 'Repeat you password'
-        })
+        widget=forms.PasswordInput()
     )
 
     # passar metadados
@@ -88,16 +86,6 @@ class RegisterForm(forms.ModelForm):
                 'required': 'This field must not be empty',
                 'invalid': 'This field is invalid'
             }
-        }
-
-        widgets = {
-            'first_name': forms.TextInput(attrs={
-                'placeholder': 'Type you first name here',
-                'class': 'input text-input '
-            }),
-            'password': forms.PasswordInput(attrs={
-                'placeholder': 'Type your password here'
-            })
         }
 
     def clean(self):
