@@ -76,7 +76,7 @@ def search(request):
             'page_title': f'Search for "{search_term}" |',
             'search_term': search_term,
             'recipes': page_obj,
-            'pagiantion_range': pagination_range,
+            'pagination_range': pagination_range,
             'additional_url_query': f'&q={search_term}',
         },
     )
