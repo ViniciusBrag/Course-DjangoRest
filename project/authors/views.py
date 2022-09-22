@@ -17,7 +17,7 @@ def register_create(request):
         raise Http404()
 
     POST = request.POST
-    request.session['register_form_data'] = POST
+    POST = request.session['register_form_data']
     form = RegisterForm(POST)
 
     if form.is_valid():
