@@ -1,3 +1,4 @@
+from http import HTTPStatus
 from unittest import TestCase
 
 from django.test import TestCase as DjangoTestCase
@@ -116,3 +117,7 @@ class AuthorRegisterFormIntegrationTest(DjangoTestCase):
 
         self.assertIn(msg, response.context['form'].errors.get('password'))
         self.assertIn(msg, response.content.decode('utf-8'))
+
+    def test_send_get_request_to_registration_create_view_returns_404(self):
+        response_url = self.client.get(reverse('authors:create'))
+        self.assertEqual(response_url.status_code, HTTPStatus.NOT_FOUND)
