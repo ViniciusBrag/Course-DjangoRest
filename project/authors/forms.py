@@ -38,8 +38,30 @@ class RegisterForm(forms.ModelForm):
         add_placeholder(self.fields['last_name'], 'Ex.: Doe')
         add_attr(self.fields['username'], 'css', 'a-css-class')
 
+    username = forms.CharField(
+        label='Username',
+        help_text=('Username must have letters, numbers or one of those @.+-_'
+                   'The lenght should be between 4 and 150 characters'),
+        min_length=4,
+        max_length=150,
+        error_messages={
+            'required': 'This field must not be empty',
+            'min_length': 'Username must have at least 4 characters',
+            'max_length': 'Username must have less than 150 characters',
+
+        },
+    )
+    first_name = forms.CharField(
+        error_messages={'required': 'Write your first name'},
+        label='First name'
+    )
+
+    last_name = forms.CharField(
+        error_messages={'required': 'Write your last name'},
+        label='Last name'
+    )
+
     password = forms.CharField(
-        required=True,
         widget=forms.PasswordInput(),
         error_messages={
             'required': 'Password must not be empty'
@@ -54,9 +76,19 @@ class RegisterForm(forms.ModelForm):
     )
 
     repeat_password = forms.CharField(
-        required=True,
         widget=forms.PasswordInput(),
-        label='Repeat Password'
+        label='Repeat Password',
+        error_messages={
+            'required': 'Please, repeat your password'
+        }
+    )
+
+    email = forms.EmailField(
+        label='E-mail',
+        error_messages={
+            'required': 'E-mail is required'
+        },
+        help_text='The e-mail must be valid.'
     )
 
     # passar metadados
@@ -76,17 +108,6 @@ class RegisterForm(forms.ModelForm):
             'first_name': 'First name',
             'last_name': 'Last name',
             'email': 'E-mail',
-        }
-
-        help_texts = {
-            'email': 'The e-mail must be valid.'
-        }
-
-        error_messages = {
-            'username': {
-                'required': 'This field must not be empty',
-                'invalid': 'This field is invalid'
-            }
         }
 
     def clean(self):
