@@ -318,6 +318,19 @@
     margin-bottom: var(--spacing-gutter-medium);
   }
 
+  .inline-form {
+    display: inline;
+  }
+
+  .plaintext-button{
+    display: inline;
+    border: none;
+    background: none;
+    cursor: pointer;
+    color: var(--color-primary);
+    font-size: 1.6rem;
+  }
+
   .form-content input {
     width: 100%;
     padding: 1rem;
