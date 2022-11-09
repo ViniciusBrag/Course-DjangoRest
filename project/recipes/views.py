@@ -3,6 +3,7 @@ import os
 from django.db.models import Q
 from django.http.response import Http404
 from django.shortcuts import get_list_or_404, get_object_or_404, render
+
 from project.recipes.models import Recipe
 from utils.pagination import make_pagination
 
@@ -76,7 +77,7 @@ def search(request):
             'page_title': f'Search for "{search_term}" |',
             'search_term': search_term,
             'recipes': page_obj,
-            'pagiantion_range': pagination_range,
+            'pagination_range': pagination_range,
             'additional_url_query': f'&q={search_term}',
         },
     )
