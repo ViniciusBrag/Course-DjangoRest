@@ -2,11 +2,10 @@ from django.test import TestCase
 
 from project.recipes.models import Category, Recipe, User
 
+# classe que existe metodos que outras classes não tem relação, apenas para transferir métodos para outra classe
 
-class RecipeBase(TestCase):
-    def setUp(self) -> None:
-        return super().setUp()
 
+class RecipeMixin:
     def make_category(self, name='Category test'):
         return Category.objects.create(name=name)
 
@@ -62,3 +61,8 @@ class RecipeBase(TestCase):
             preparation_steps_is_html=preparation_steps_is_html,
             is_published=is_published,
         )
+
+
+class RecipeBase(TestCase, RecipeMixin):
+    def setUp(self) -> None:
+        return super().setUp()

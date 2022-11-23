@@ -2,6 +2,7 @@ from http import HTTPStatus
 from unittest.mock import patch
 
 from django.urls import resolve, reverse
+
 from project.recipes import views
 from project.recipes.tests.test_recipe_base import RecipeBase
 
